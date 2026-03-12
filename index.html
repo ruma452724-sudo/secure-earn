@@ -11,18 +11,18 @@
     
     <style>
         body { font-family: 'Hind Siliguri', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
-        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: linear-gradient(180deg, #0f172a 0%, #020617 100%); position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
-        .custom-input { background-color: rgba(30, 41, 59, 0.7); border: 2px solid #334155; transition: all 0.3s ease; font-size: 1.1rem; }
-        .custom-input:focus { border-color: #22c55e; background-color: rgba(30, 41, 59, 1); box-shadow: 0 0 15px rgba(34, 197, 94, 0.2); }
-        .btn-primary { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3); }
+        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: linear-gradient(180deg, #0f172a 0%, #020617 100%); position: relative; }
+        .custom-input { background-color: rgba(30, 41, 59, 0.7); border: 2px solid #334155; transition: all 0.3s ease; }
+        .custom-input:focus { border-color: #22c55e; background-color: rgba(30, 41, 59, 1); }
+        .btn-primary { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); transition: all 0.3s ease; }
         .btn-primary:active { transform: scale(0.96); }
         .info-card { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; backdrop-filter: blur(10px); }
         #dashboard-page { display: none; }
         #withdraw-modal { display: none; }
         .loader { border: 3px solid rgba(255,255,255,0.1); border-radius: 50%; border-top: 3px solid #22c55e; width: 25px; height: 25px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .balance-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid #334155; }
-        .task-box { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; border: 1px solid #334155; font-weight: bold; transition: all 0.3s; }
+        /* চ্যালেঞ্জ বক্সের ডিজাইন */
+        .task-box { width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid #334155; font-weight: bold; font-size: 12px; border-radius: 8px; }
         .task-done { background: #22c55e !important; color: white !important; border-color: #22c55e !important; }
     </style>
 </head>
@@ -30,116 +30,109 @@
 
     <div id="toast-container" class="fixed top-5 left-0 right-0 z-[100] flex flex-col items-center pointer-events-none"></div>
 
-    <div class="app-container relative">
+    <div class="app-container relative min-h-screen">
         
         <div id="login-page" class="min-h-screen flex flex-col justify-center px-8 py-10">
-            <div class="flex justify-center mb-8">
-                <div class="w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-3xl flex items-center justify-center shadow-2xl">
-                    <i class="fas fa-shield-alt text-5xl text-white"></i>
+            <div class="flex justify-center mb-6">
+                <div class="w-20 h-20 bg-green-500 rounded-2xl flex items-center justify-center shadow-lg shadow-green-500/20">
+                    <i class="fas fa-shield-alt text-4xl text-white"></i>
                 </div>
             </div>
-            <h1 class="text-4xl font-bold text-center mb-2 tracking-tight">Secure Earn</h1>
-            <p class="text-gray-400 text-center text-lg mb-10">আপনার আয়ের নিরাপদ প্লাটফর্ম</p>
+            <h1 class="text-3xl font-bold text-center mb-2">Secure Earn</h1>
+            <p class="text-gray-400 text-center mb-10">নিরাপদ আয়ের বিশ্বস্ত মাধ্যম</p>
 
-            <div class="info-card p-8 shadow-2xl border-white/5">
-                <div class="mb-6">
-                    <label class="block text-gray-300 text-sm font-bold mb-2 ml-1 uppercase tracking-wider">আপনার নাম</label>
-                    <input type="text" id="nameInput" placeholder="এখানে নাম লিখুন..." class="custom-input w-full p-5 rounded-2xl text-white outline-none">
+            <div class="info-card p-6 shadow-xl">
+                <div class="mb-5">
+                    <label class="block text-gray-400 text-sm mb-2 ml-1">আপনার নাম</label>
+                    <input type="text" id="nameInput" placeholder="নাম লিখুন" class="custom-input w-full p-4 rounded-xl text-white outline-none">
                 </div>
                 <div class="mb-8">
-                    <label class="block text-gray-300 text-sm font-bold mb-2 ml-1 uppercase tracking-wider">ফোন নম্বর (UID)</label>
-                    <input type="number" id="phoneInput" placeholder="এখানে নম্বর লিখুন..." class="custom-input w-full p-5 rounded-2xl text-white outline-none">
+                    <label class="block text-gray-400 text-sm mb-2 ml-1">ফোন নম্বর (UID)</label>
+                    <input type="number" id="phoneInput" placeholder="নম্বর লিখুন" class="custom-input w-full p-4 rounded-xl text-white outline-none">
                 </div>
-                <button onclick="handleLogin()" id="loginBtn" class="btn-primary w-full py-5 rounded-2xl font-bold text-white text-xl flex items-center justify-center gap-3">
-                    এগিয়ে যান <i class="fas fa-arrow-right"></i>
-                </button>
+                <button onclick="handleLogin()" class="btn-primary w-full py-4 rounded-xl font-bold text-white text-lg">লগইন করুন</button>
             </div>
         </div>
 
-        <div id="dashboard-page" class="pb-10 min-h-screen flex flex-col">
-            <div class="flex justify-between items-center px-6 py-6 bg-slate-900/80 backdrop-blur-md border-b border-white/5 sticky top-0 z-40">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-slate-800 rounded-2xl flex items-center justify-center text-green-500 border border-white/5"><i class="fas fa-user-circle text-2xl"></i></div>
+        <div id="dashboard-page" class="pb-10">
+            <div class="px-6 py-6 flex justify-between items-center bg-slate-900/50 backdrop-blur-md sticky top-0 z-40">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center text-green-500"><i class="fas fa-user"></i></div>
                     <div>
-                        <p class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">ব্যবহারকারী</p>
-                        <h2 class="text-lg font-bold text-white leading-tight" id="displayUserName">User</h2>
-                        <p class="text-[11px] text-green-500 font-mono">ID: <span id="displayHeaderUid">...</span></p>
+                        <h2 class="text-sm font-bold text-white" id="displayUserName text-ellipsis overflow-hidden">User</h2>
+                        <p class="text-[10px] text-green-500">ID: <span id="displayHeaderUid">...</span></p>
                     </div>
                 </div>
-                <button onclick="logout()" class="w-10 h-10 flex items-center justify-center rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all"><i class="fas fa-power-off text-lg"></i></button>
+                <button onclick="logout()" class="text-red-500 bg-red-500/10 p-2 px-3 rounded-lg text-xs font-bold">লগআউট</button>
             </div>
 
-            <div class="px-6 mt-8 flex-grow">
-                <div class="balance-card p-7 rounded-3xl mb-6 relative overflow-hidden shadow-xl">
-                    <div class="flex justify-between items-end">
-                        <div>
-                            <p class="text-gray-400 text-sm font-bold mb-1 uppercase tracking-wider">বর্তমান ব্যালেন্স</p>
-                            <h1 class="text-5xl font-bold text-white tracking-tighter">৳ <span id="balanceDisplay">0</span></h1>
-                        </div>
-                        <button onclick="openWithdrawModal()" class="bg-green-500/10 hover:bg-green-500 border border-green-500/20 text-green-500 hover:text-white px-5 py-3 rounded-2xl text-sm font-bold transition-all">টাকা তুলুন</button>
+            <div class="px-6 mt-6">
+                <div class="info-card p-6 mb-6 bg-gradient-to-br from-slate-800 to-slate-900 border-green-500/20">
+                    <p class="text-gray-400 text-xs mb-1 uppercase tracking-wider">মোট ব্যালেন্স</p>
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-4xl font-bold text-white">৳ <span id="balanceDisplay">0</span></h1>
+                        <button onclick="openWithdrawModal()" class="bg-green-500 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-lg shadow-green-500/20">টাকা তুলুন</button>
                     </div>
                 </div>
 
-                <div class="info-card mb-8 overflow-hidden p-5 border-yellow-500/20">
-                    <div class="flex items-center justify-center gap-2 mb-3">
-                        <i class="fas fa-fire text-orange-500"></i>
-                        <h3 class="font-bold text-yellow-500 text-lg uppercase tracking-wide">আজকের চ্যালেঞ্জ</h3>
+                <div class="info-card p-5 mb-6 border-yellow-500/20">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-yellow-500 text-sm uppercase"><i class="fas fa-fire mr-2"></i>আজকের চ্যালেঞ্জ</h3>
+                        <span id="progressText" class="text-[10px] text-gray-400 font-bold">০/১০ সম্পন্ন</span>
                     </div>
-                    <div class="bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 text-center py-2 rounded-xl mb-4 text-xs font-bold">
-                        ১০টি কাজ পূর্ণ করলে ২০% এক্সট্রা বোনাস!
-                    </div>
-                    <div id="challengeGrid" class="grid grid-cols-5 gap-1 bg-slate-800/30 p-1 rounded-xl">
+                    <div id="challengeGrid" class="grid grid-cols-5 gap-2 mb-2">
                         </div>
-                    <p id="progressText" class="text-center text-[10px] text-gray-500 mt-3 font-bold uppercase tracking-widest">প্রগ্রেস: ০/১০</p>
+                    <p class="text-[9px] text-gray-500 text-center italic">১০টি কাজ পূর্ণ করলে ২০% এক্সট্রা বোনাস পাবেন!</p>
                 </div>
 
-                <div class="info-card mb-8 overflow-hidden">
-                    <div class="p-5 border-b border-white/5 bg-white/5 flex items-center gap-3">
-                        <i class="fas fa-bolt text-yellow-400"></i>
-                        <h3 class="font-bold text-white text-md">অটোমেটিক কাজ শুরু করুন</h3>
+                <div class="info-card overflow-hidden">
+                    <div class="p-4 bg-white/5 border-b border-white/5">
+                        <h3 class="text-sm font-bold text-white"><i class="fas fa-tasks mr-2 text-green-500"></i>ডেইলি টাস্ক</h3>
                     </div>
-                    <div class="p-6" id="verification-content-container"></div>
+                    <div class="p-6" id="verification-content-container">
+                        </div>
                 </div>
             </div>
         </div>
 
-        <div id="withdraw-modal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center px-6 backdrop-blur-sm">
-            <div class="info-card w-full max-w-sm rounded-3xl p-8 border-white/10 relative">
-                <button onclick="closeWithdrawModal()" class="absolute top-5 right-5 text-gray-500 hover:text-white transition-colors"><i class="fas fa-times-circle text-2xl"></i></button>
-                <h3 class="text-2xl font-bold text-white mb-1">টাকা উত্তোলন</h3>
-                <p class="text-sm text-gray-400 mb-6">মিনিমাম ১৫০ টাকা</p>
+        <div id="withdraw-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center px-6">
+            <div class="info-card w-full max-w-sm p-8 relative">
+                <h3 class="text-xl font-bold text-white mb-6">Withdraw Money</h3>
                 <div class="space-y-4">
-                    <select id="wMethod" class="w-full bg-slate-800 border border-slate-700 rounded-2xl p-4 text-white outline-none"><option value="Bkash">বিকাশ</option><option value="Nagad">নগদ</option></select>
-                    <input type="number" id="wNumber" placeholder="ফোন নম্বর" class="w-full bg-slate-800 border border-slate-700 rounded-2xl p-4 text-white outline-none">
-                    <input type="number" id="wAmount" placeholder="পরিমাণ (৳)" class="w-full bg-slate-800 border border-slate-700 rounded-2xl p-4 text-white outline-none">
-                    <button onclick="submitWithdraw()" id="wBtn" class="btn-primary w-full py-4 rounded-2xl font-bold text-white">রিকোয়েস্ট পাঠান</button>
+                    <select id="wMethod" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-white outline-none"><option value="Bkash">বিকাশ</option><option value="Nagad">নগদ</option></select>
+                    <input type="number" id="wNumber" placeholder="ফোন নম্বর" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-white outline-none">
+                    <input type="number" id="wAmount" placeholder="পরিমাণ" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-white outline-none">
+                    <div class="flex gap-2">
+                        <button onclick="closeWithdrawModal()" class="w-1/3 bg-slate-700 text-white py-4 rounded-xl font-bold">বাতিল</button>
+                        <button onclick="submitWithdraw()" id="wBtn" class="w-2/3 btn-primary text-white py-4 rounded-xl font-bold">কনফার্ম</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // আপনার নতুন আপডেট করা স্ক্রিপ্ট ইউআরএল এখানে বসানো হয়েছে
+        // আপনার নতুন স্ক্রিপ্ট URL
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxp0IFogr2Xf-i3t1VMQaWTSU3qwElvGzydhIGPrLDeQSG0vzX4cwpKJwEi5efU2z8/exec"; 
         const API_KEY = "Hakim2724Ruma"; 
         
-        let globalUid = "", globalName = "", currentPrivateKey = "", currentLink = "", currentBalance = 0;
+        let globalUid = "", globalName = "";
 
         window.onload = function() {
-            const savedName = localStorage.getItem('user_name'), savedUid = localStorage.getItem('user_uid');
-            if (savedName && savedUid) { globalName = savedName; globalUid = savedUid; showDashboard(); }
+            const sn = localStorage.getItem('user_name'), su = localStorage.getItem('user_uid');
+            if (sn && su) { globalName = sn; globalUid = su; showDashboard(); }
         };
 
         function handleLogin() {
-            const name = document.getElementById('nameInput').value, phone = document.getElementById('phoneInput').value;
-            if (!name || !phone) return showToast("তথ্য দিন!", "Error");
-            localStorage.setItem('user_name', name); localStorage.setItem('user_uid', phone);
-            globalName = name; globalUid = phone; showDashboard();
+            const n = document.getElementById('nameInput').value, p = document.getElementById('phoneInput').value;
+            if (!n || !p) return showToast("সঠিক তথ্য দিন!", "Error");
+            localStorage.setItem('user_name', n); localStorage.setItem('user_uid', p);
+            globalName = n; globalUid = p; showDashboard();
         }
 
         function showDashboard() {
             document.getElementById('login-page').style.display = 'none';
-            document.getElementById('dashboard-page').style.display = 'flex';
+            document.getElementById('dashboard-page').style.display = 'block';
             document.getElementById('displayUserName').innerText = globalName;
             document.getElementById('displayHeaderUid').innerText = globalUid;
             loadBalance(); renderStep1();
@@ -147,71 +140,55 @@
 
         function loadBalance() {
             fetch(SCRIPT_URL + `?action=getBalance&uid=${globalUid}&apiKey=${API_KEY}`)
-            .then(res => res.json())
-            .then(data => {
+            .then(r => r.json()).then(data => {
                 if(data.result === 'success') {
-                    currentBalance = data.balance;
                     document.getElementById('balanceDisplay').innerText = data.balance;
                     updateChallengeUI(data.todayTasks);
                 }
-            }).catch(err => console.error("Balance Load Error:", err));
+            });
         }
 
-        function updateChallengeUI(todayTasks) {
+        function updateChallengeUI(tasks) {
             const grid = document.getElementById('challengeGrid');
-            const progText = document.getElementById('progressText');
             grid.innerHTML = "";
             for(let i=1; i<=10; i++) {
-                const box = document.createElement('div');
-                box.className = `task-box rounded-lg ${i <= todayTasks ? 'task-done' : 'bg-slate-900/50 text-slate-600'}`;
-                box.innerText = i;
-                grid.appendChild(box);
+                grid.innerHTML += `<div class="task-box ${i <= tasks ? 'task-done' : 'bg-slate-800 text-slate-600'}">${i}</div>`;
             }
-            progText.innerText = `প্রগ্রেস: ${todayTasks}/১০ সম্পন্ন`;
+            document.getElementById('progressText').innerText = `${tasks}/১০ সম্পন্ন`;
         }
 
         function renderStep1() {
             document.getElementById('verification-content-container').innerHTML = `
-                <div class="bg-slate-800/50 p-5 rounded-2xl mb-6 border border-white/5 text-sm text-gray-300">
-                    <p class="font-bold text-green-500 mb-2">প্রতি কাজ: ৪০ টাকা</p>
-                    <p>লিংকে গিয়ে ফেস ভেরিফিকেশন সফল করে অ্যাপে স্ট্যাটাস চেক করুন।</p>
+                <div class="text-center mb-6">
+                    <p class="text-green-500 font-bold mb-1">প্রতি কাজ: ৪০ টাকা</p>
+                    <p class="text-xs text-gray-400">নিচের বাটনে ক্লিক করে কাজ শুরু করুন</p>
                 </div>
-                <button onclick="fetchLinkAndStart()" id="startBtn" class="btn-primary w-full py-5 rounded-2xl font-bold text-white text-lg">ভেরিফিকেশন শুরু করুন</button>
+                <button onclick="fetchLink()" id="startBtn" class="btn-primary w-full py-4 rounded-xl font-bold text-white">START TASK</button>
             `;
         }
 
-        function fetchLinkAndStart() {
-            const container = document.getElementById('verification-content-container');
-            container.innerHTML = `<div class="flex flex-col items-center py-10 gap-3"><div class="loader"></div><p class="text-xs text-gray-500">লিংক লোড হচ্ছে...</p></div>`;
+        function fetchLink() {
+            const c = document.getElementById('verification-content-container');
+            c.innerHTML = `<div class="flex justify-center py-6"><div class="loader"></div></div>`;
             fetch(SCRIPT_URL + `?action=getLink&uid=${globalUid}&name=${globalName}&apiKey=${API_KEY}`)
-                .then(res => res.json()).then(data => {
-                    if (data.result === "success") {
-                        currentLink = data.link; currentPrivateKey = data.privateKey;
-                        container.innerHTML = `
-                            <button onclick="window.open('${currentLink}', '_blank')" class="w-full border-2 border-green-500 text-green-500 font-bold py-5 rounded-2xl mb-4">Verify Face Now</button>
-                            <button onclick="checkStatus()" id="statusCheckBtn" class="w-full bg-slate-800 text-white font-bold py-5 rounded-2xl">ভেরিফিকেশন স্ট্যাটাস দেখুন</button>
-                        `;
-                    } else { showToast("লিংক নেই!", "Error"); renderStep1(); }
-                }).catch(err => { showToast("সার্ভার ত্রুটি!", "Error"); renderStep1(); });
+            .then(r => r.json()).then(data => {
+                if(data.result === "success") {
+                    c.innerHTML = `
+                        <button onclick="window.open('${data.link}', '_blank')" class="w-full border-2 border-green-500 text-green-500 font-bold py-4 rounded-xl mb-4">OPEN LINK</button>
+                        <button onclick="checkStatus()" id="checkBtn" class="w-full bg-slate-800 text-white font-bold py-4 rounded-xl">CHECK STATUS</button>
+                    `;
+                } else { showToast("লিংক নেই!", "Error"); renderStep1(); }
+            });
         }
 
-        async function checkStatus() {
-            const btn = document.getElementById('statusCheckBtn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = `<div class="loader mx-auto"></div>`; btn.disabled = true;
-            
-            setTimeout(async () => {
-                const status = "Verified"; 
-                fetch(SCRIPT_URL + `?action=updateStatus&uid=${globalUid}&status=${status}&apiKey=${API_KEY}`)
-                .then(res => res.json())
-                .then(data => {
-                    showToast("সফলভাবে আপডেট হয়েছে!", "Success");
-                    loadBalance(); 
-                    renderStep1();
-                }).catch(err => {
-                    showToast("আপডেট করা যায়নি", "Error");
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
+        function checkStatus() {
+            const btn = document.getElementById('checkBtn');
+            btn.innerHTML = `<div class="loader mx-auto"></div>`;
+            setTimeout(() => {
+                fetch(SCRIPT_URL + `?action=updateStatus&uid=${globalUid}&status=Verified&apiKey=${API_KEY}`)
+                .then(r => r.json()).then(data => {
+                    showToast("টাস্ক সফল!", "Success");
+                    loadBalance(); renderStep1();
                 });
             }, 2000);
         }
@@ -220,39 +197,20 @@
         function closeWithdrawModal() { document.getElementById('withdraw-modal').style.display = 'none'; }
         
         function submitWithdraw() {
-            const amount = document.getElementById('wAmount').value;
-            const method = document.getElementById('wMethod').value;
-            const number = document.getElementById('wNumber').value;
-            
-            if(amount < 150) return showToast("মিনিমাম ১৫০ টাকা!", "Error");
-            if(!number) return showToast("নম্বর দিন!", "Error");
-
-            const wBtn = document.getElementById('wBtn');
-            wBtn.innerText = "প্রসেসিং...";
-            wBtn.disabled = true;
-
-            fetch(SCRIPT_URL + `?action=withdraw&uid=${globalUid}&name=${globalName}&method=${method}&number=${number}&amount=${amount}&apiKey=${API_KEY}`)
-            .then(res => res.json())
-            .then(data => {
-                showToast("রিকোয়েস্ট পাঠানো হয়েছে!", "Success");
-                closeWithdrawModal();
-                loadBalance();
-            }).finally(() => {
-                wBtn.innerText = "রিকোয়েস্ট পাঠান";
-                wBtn.disabled = false;
-            });
+            const a = document.getElementById('wAmount').value, m = document.getElementById('wMethod').value, n = document.getElementById('wNumber').value;
+            if(a < 150) return showToast("মিনিমাম ১৫০ টাকা", "Error");
+            document.getElementById('wBtn').innerText = "...";
+            fetch(SCRIPT_URL + `?action=withdraw&uid=${globalUid}&name=${globalName}&method=${m}&number=${n}&amount=${a}&apiKey=${API_KEY}`)
+            .then(() => { showToast("রিকোয়েস্ট সফল!", "Success"); closeWithdrawModal(); loadBalance(); });
         }
 
-        function showToast(msg, type) {
-            const container = document.getElementById('toast-container');
+        function showToast(m, t) {
+            const c = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `p-4 rounded-2xl mb-3 text-white font-bold transition-all duration-300 ${type === 'Error' ? 'bg-red-600' : 'bg-green-600'}`;
-            toast.innerText = msg;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 500);
-            }, 3000);
+            toast.className = `p-4 rounded-xl mb-2 text-white text-xs font-bold ${t === 'Error' ? 'bg-red-500' : 'bg-green-500'}`;
+            toast.innerText = m;
+            c.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
 
         function logout() { localStorage.clear(); location.reload(); }
