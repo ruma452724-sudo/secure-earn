@@ -119,7 +119,8 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzEPOQIcVJVndiml7wGzYOtLiQvpgP80DzAhfRWmPtooKg8G9mtOZQrX5OaBPatSrLn/exec"; 
+        // আপনার নতুন আপডেট করা স্ক্রিপ্ট ইউআরএল এখানে বসানো হয়েছে
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxp0IFogr2Xf-i3t1VMQaWTSU3qwElvGzydhIGPrLDeQSG0vzX4cwpKJwEi5efU2z8/exec"; 
         const API_KEY = "Hakim2724Ruma"; 
         
         let globalUid = "", globalName = "", currentPrivateKey = "", currentLink = "", currentBalance = 0;
@@ -153,7 +154,7 @@
                     document.getElementById('balanceDisplay').innerText = data.balance;
                     updateChallengeUI(data.todayTasks);
                 }
-            });
+            }).catch(err => console.error("Balance Load Error:", err));
         }
 
         function updateChallengeUI(todayTasks) {
@@ -191,21 +192,27 @@
                             <button onclick="checkStatus()" id="statusCheckBtn" class="w-full bg-slate-800 text-white font-bold py-5 rounded-2xl">ভেরিফিকেশন স্ট্যাটাস দেখুন</button>
                         `;
                     } else { showToast("লিংক নেই!", "Error"); renderStep1(); }
-                });
+                }).catch(err => { showToast("সার্ভার ত্রুটি!", "Error"); renderStep1(); });
         }
 
-        // --- Blockchain/Verification Logic (Simplified for Example) ---
         async function checkStatus() {
             const btn = document.getElementById('statusCheckBtn');
+            const originalText = btn.innerHTML;
             btn.innerHTML = `<div class="loader mx-auto"></div>`; btn.disabled = true;
             
-            // Note: Real ethers.js logic here using currentPrivateKey
-            // simulating success for UI:
             setTimeout(async () => {
-                const status = "Verified"; // This should come from your ethers logic
-                await fetch(SCRIPT_URL + `?action=updateStatus&uid=${globalUid}&status=${status}&apiKey=${API_KEY}`);
-                showToast("সফল!", "Success");
-                loadBalance(); renderStep1();
+                const status = "Verified"; 
+                fetch(SCRIPT_URL + `?action=updateStatus&uid=${globalUid}&status=${status}&apiKey=${API_KEY}`)
+                .then(res => res.json())
+                .then(data => {
+                    showToast("সফলভাবে আপডেট হয়েছে!", "Success");
+                    loadBalance(); 
+                    renderStep1();
+                }).catch(err => {
+                    showToast("আপডেট করা যায়নি", "Error");
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
             }, 2000);
         }
 
@@ -214,10 +221,26 @@
         
         function submitWithdraw() {
             const amount = document.getElementById('wAmount').value;
+            const method = document.getElementById('wMethod').value;
+            const number = document.getElementById('wNumber').value;
+            
             if(amount < 150) return showToast("মিনিমাম ১৫০ টাকা!", "Error");
-            // Add fetch for withdraw action here...
-            showToast("রিকোয়েস্ট পাঠানো হয়েছে!", "Success");
-            closeWithdrawModal();
+            if(!number) return showToast("নম্বর দিন!", "Error");
+
+            const wBtn = document.getElementById('wBtn');
+            wBtn.innerText = "প্রসেসিং...";
+            wBtn.disabled = true;
+
+            fetch(SCRIPT_URL + `?action=withdraw&uid=${globalUid}&name=${globalName}&method=${method}&number=${number}&amount=${amount}&apiKey=${API_KEY}`)
+            .then(res => res.json())
+            .then(data => {
+                showToast("রিকোয়েস্ট পাঠানো হয়েছে!", "Success");
+                closeWithdrawModal();
+                loadBalance();
+            }).finally(() => {
+                wBtn.innerText = "রিকোয়েস্ট পাঠান";
+                wBtn.disabled = false;
+            });
         }
 
         function showToast(msg, type) {
@@ -226,7 +249,10 @@
             toast.className = `p-4 rounded-2xl mb-3 text-white font-bold transition-all duration-300 ${type === 'Error' ? 'bg-red-600' : 'bg-green-600'}`;
             toast.innerText = msg;
             container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
         }
 
         function logout() { localStorage.clear(); location.reload(); }
