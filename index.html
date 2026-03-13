@@ -58,7 +58,8 @@
             border: 3px solid rgba(255,255,255,0.1);
             border-radius: 50%;
             border-top: 3px solid #22c55e;
-            width: 25px; height: 25px;
+            width: 25px;
+            height: 25px;
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -67,10 +68,6 @@
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border: 1px solid #334155;
         }
-
-        /* চ্যালেঞ্জ বক্সের লাইভ স্টাইল */
-        .task-box { border: 1px solid #334155; transition: all 0.3s ease; }
-        .task-done { background: #22c55e !important; border-color: #22c55e !important; color: white !important; box-shadow: inset 0 0 10px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
@@ -101,6 +98,14 @@
                     এগিয়ে যান <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
+            
+            <div class="mt-12 text-center">
+                <p class="text-green-500 text-sm font-bold mb-4">সহযোগিতার জন্য যুক্ত হন:</p>
+                <div class="flex flex-col gap-3">
+                    <a href="https://t.me/secureearnpayments" target="_blank" class="text-gray-400 hover:text-white transition-all underline decoration-gray-700">টেলিগ্রাম চ্যানেল (আপডেট)</a>
+                    <a href="https://t.me/secureearnpayments" target="_blank" class="text-gray-400 hover:text-white transition-all underline decoration-gray-700">টেলিগ্রাম গ্রুপ (সাপোর্ট)</a>
+                </div>
+            </div>
         </div>
 
         <div id="dashboard-page" class="pb-10 min-h-screen flex flex-col">
@@ -118,28 +123,56 @@
 
             <div class="px-6 mt-8 flex-grow">
                 <div class="balance-card p-7 rounded-3xl mb-6 relative overflow-hidden shadow-xl">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-green-500 opacity-5 rounded-full blur-3xl"></div>
                     <div class="flex justify-between items-end">
                         <div>
                             <p class="text-gray-400 text-sm font-bold mb-1 uppercase tracking-wider">বর্তমান ব্যালেন্স</p>
                             <h1 class="text-5xl font-bold text-white tracking-tighter">৳ <span id="balanceDisplay">0</span></h1>
                         </div>
-                        <button onclick="openWithdrawModal()" class="bg-green-500/10 hover:bg-green-500 border border-green-500/20 text-green-500 hover:text-white px-5 py-3 rounded-2xl text-sm font-bold transition-all">টাকা তুলুন</button>
+                        <button onclick="openWithdrawModal()" class="bg-green-500/10 hover:bg-green-500 border border-green-500/20 text-green-500 hover:text-white px-5 py-3 rounded-2xl text-sm font-bold transition-all">
+                            টাকা তুলুন <i class="fas fa-wallet ml-1 text-xs"></i>
+                        </button>
                     </div>
+                </div>
+
+                <div class="bg-green-500 p-6 rounded-3xl shadow-lg shadow-green-900/20 mb-8">
+                    <p class="text-white/80 text-sm font-bold mb-1 uppercase">সফল ভেরিফিকেশন</p>
+                    <h1 id="totalKeysDisplay" class="text-4xl font-bold text-white tracking-tight">0</h1>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                        <p class="text-[11px] text-white/90 font-bold uppercase tracking-wider">সিস্টেম সক্রিয় আছে</p>
+                    </div>
+                </div>
+                
+                <div class="bg-amber-500/10 border border-amber-500/30 p-5 rounded-2xl mb-8">
+                    <h4 class="text-amber-500 font-bold text-sm mb-2 flex items-center gap-2">
+                        <i class="fas fa-circle-exclamation"></i> গুরুত্বপূর্ণ নোটিশ:
+                    </h4>
+                    <p class="text-xs text-gray-300 leading-relaxed font-medium">একটি প্রাইভেট কি শুধুমাত্র একবারই ব্যবহারযোগ্য। ভেরিফিকেশন শেষ করে দ্রুত সাবমিট করুন।</p>
                 </div>
 
                 <div class="info-card mb-8 overflow-hidden p-6">
                     <div class="flex items-center justify-center gap-2 mb-4">
-                        <i class="fas fa-fire text-orange-500 text-xl"></i>
+                        <i class="fas fa-gift text-yellow-500 text-xl"></i>
                         <h3 class="font-bold text-yellow-500 text-xl">আজকের চ্যালেঞ্জ</h3>
                     </div>
                     
-                    <div class="bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 text-center py-2 rounded-xl mb-6 text-xs font-bold">
-                        ১০টি কাজ পূর্ণ করলে ২০% এক্সট্রা বোনাস!
+                    <div class="bg-[#2A2B20]/60 border border-yellow-600/30 text-yellow-500 text-center py-3 rounded-xl mb-6 text-[15px] font-bold shadow-inner">
+                        ২৪ ঘন্টার মধ্যে ১০টি কাজ সম্পন্ন করলে ২০% বোনাস!
                     </div>
 
-                    <div id="challengeGrid" class="grid grid-cols-5 bg-slate-800/40 border-2 border-slate-700/50 rounded-xl overflow-hidden">
-                        </div>
-                    <p id="progressText" class="text-center text-[10px] text-gray-500 mt-3 font-bold uppercase tracking-widest">প্রগ্রেস: ০/১০</p>
+                    <div class="grid grid-cols-5 bg-slate-800/40 border-2 border-slate-700/50 rounded-xl overflow-hidden">
+                        <div class="border border-slate-700/50 h-16 flex items-center justify-center text-2xl font-bold text-slate-300">১</div>
+                        <div class="border border-slate-700/50 h-16 flex items-center justify-center text-2xl font-bold text-slate-300">২</div>
+                        <div class="border border-slate-700/50 h-16 flex items-center justify-center text-2xl font-bold text-slate-300">৩</div>
+                        <div class="border border-slate-700/50 h-16 flex items-center justify-center text-2xl font-bold text-slate-300">৪</div>
+                        <div class="border border-slate-700/50 h-16 flex items-center justify-center text-2xl font-bold text-slate-300">৫</div>
+                        <div class="border border-slate-700/50 h-16 flex items-center justify-center text-2xl font-bold text-slate-300">৬</div>
+                        <div class="border border-slate-700/50 h-16 flex items-center justify-center text-2xl font-bold text-slate-300">৭</div>
+                        <div class="border border-slate-700/50 h-16 flex items-center justify-center text-2xl font-bold text-slate-300">৮</div>
+                        <div class="border border-slate-700/50 h-16 flex items-center justify-center text-2xl font-bold text-slate-300">৯</div>
+                        <div class="border border-slate-700/50 h-16 flex items-center justify-center text-2xl font-bold text-slate-300">১০</div>
+                    </div>
                 </div>
 
                 <div class="info-card mb-8 overflow-hidden">
@@ -149,6 +182,20 @@
                     </div>
                     <div class="p-6" id="verification-content-container"></div>
                 </div>
+
+                <div class="info-card p-6 mb-10 border-dashed border-sky-500/30">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fas fa-headset text-sky-400 text-xl"></i>
+                        <h3 class="font-bold text-white text-md">সাপোর্ট সেন্টার</h3>
+                    </div>
+                    <button onclick="window.open('https://t.me/secureearnpayments', '_blank')" class="w-full bg-sky-500/10 hover:bg-sky-500 text-sky-400 hover:text-white text-sm py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all">
+                        <i class="fab fa-telegram-plane text-xl"></i> টেলিগ্রাম গ্রুপে জয়েন করুন
+                    </button>
+                </div>
+            </div>
+            
+            <div class="text-center pb-8">
+                <p class="text-[11px] text-gray-600 font-bold uppercase tracking-[0.3em]">SecureEarn &bull; Trusted App</p>
             </div>
         </div>
 
@@ -156,33 +203,80 @@
             <div class="info-card w-full max-w-sm rounded-3xl p-8 border-white/10 relative">
                 <button onclick="closeWithdrawModal()" class="absolute top-5 right-5 text-gray-500 hover:text-white transition-colors"><i class="fas fa-times-circle text-2xl"></i></button>
                 <h3 class="text-2xl font-bold text-white mb-1">টাকা উত্তোলন</h3>
-                <p class="text-sm text-gray-400 mb-6">মিনিমাম ১৫০ টাকা</p>
-                <div class="space-y-4">
-                    <select id="wMethod" class="w-full bg-slate-800 border border-slate-700 rounded-2xl p-4 text-white outline-none"><option value="Bkash">বিকাশ</option><option value="Nagad">নগদ</option></select>
-                    <input type="number" id="wNumber" placeholder="ফোন নম্বর" class="w-full bg-slate-800 border border-slate-700 rounded-2xl p-4 text-white outline-none">
-                    <input type="number" id="wAmount" placeholder="পরিমাণ (৳)" class="w-full bg-slate-800 border border-slate-700 rounded-2xl p-4 text-white outline-none">
-                    <button onclick="submitWithdraw()" id="wBtn" class="btn-primary w-full py-4 rounded-2xl font-bold text-white">রিকোয়েস্ট পাঠান</button>
+                <p class="text-sm text-gray-400 mb-6">মিনিমাম 150 টাকা হলে তুলতে পারবেন</p>
+                
+                <div class="space-y-5">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-500 ml-1 uppercase">পেমেন্ট মাধ্যম</label>
+                        <select id="wMethod" class="w-full bg-slate-800 border border-slate-700 rounded-2xl p-4 text-md text-white outline-none focus:border-green-500">
+                            <option value="Bkash">বিকাশ (Bkash)</option>
+                            <option value="Nagad">নগদ (Nagad)</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-500 ml-1 uppercase">ফোন নম্বর</label>
+                        <input type="number" id="wNumber" placeholder="আপনার নম্বর লিখুন" class="w-full bg-slate-800 border border-slate-700 rounded-2xl p-4 text-md text-white outline-none focus:border-green-500">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-500 ml-1 uppercase">টাকার পরিমাণ</label>
+                        <input type="number" id="wAmount" placeholder="পরিমাণ (৳)" class="w-full bg-slate-800 border border-slate-700 rounded-2xl p-4 text-md text-white outline-none focus:border-green-500">
+                    </div>
+                    <button onclick="submitWithdraw()" id="wBtn" class="btn-primary w-full py-4 rounded-2xl font-bold text-white text-lg mt-2 shadow-lg shadow-green-500/20">রিকোয়েস্ট পাঠান</button>
                 </div>
             </div>
         </div>
+
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxp0IFogr2Xf-i3t1VMQaWTSU3qwElvGzydhIGPrLDeQSG0vzX4cwpKJwEi5efU2z8/exec"; 
+        // ============================================
+        // ⚠️ আপনার সেটিংস এখানে বসান
+        // ============================================
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxOjhWgRO4fatE_ienSlQlIxlvD-fMuaiO8EYCUsk4F1QbzKGzphsdlvn2IlL_0_EMd/exec"; 
         const API_KEY = "Hakim2724Ruma"; 
+        const VIDEO_LINK = "https://youtube.com/shorts/xPEM62ZUV_0?si=Fpl8wI35PJLv9Vdr";
         
-        let globalUid = "", globalName = "", currentPrivateKey = "";
+        // --- Blockchain Configuration (From your Code) ---
+        const CELO_RPC = 'https://forno.celo.org';
+        const CELO_IDENTITY = '0xC361A6E67822a0EDc17D899227dd9FC50BD62F42';
+        const FUSE_RPC = 'https://rpc.fuse.io';
+        const FUSE_IDENTITY = '0x514e10E5Cb78B4518AEB29027dB1E2dbC47bC438';
+        const ABI = ["function isWhitelisted(address account) view returns (bool)"];
+        
+        const celoProvider = new ethers.providers.JsonRpcProvider(CELO_RPC);
+        const celoContract = new ethers.Contract(CELO_IDENTITY, ABI, celoProvider);
+        const fuseProvider = new ethers.providers.JsonRpcProvider(FUSE_RPC);
+        const fuseContract = new ethers.Contract(FUSE_IDENTITY, ABI, fuseProvider);
 
+        let globalUid = "";
+        let globalName = "";
+        let currentPrivateKey = ""; // This will hold the PK from Google Sheet Column B
+        let currentLink = "";
+        let currentBalance = 0;
+
+        // --- Auto-Login Logic ---
         window.onload = function() {
-            const sn = localStorage.getItem('user_name'), su = localStorage.getItem('user_uid');
-            if (sn && su) { globalName = sn; globalUid = su; showDashboard(); }
+            const savedName = localStorage.getItem('user_name');
+            const savedUid = localStorage.getItem('user_uid');
+
+            if (savedName && savedUid) {
+                globalName = savedName;
+                globalUid = savedUid;
+                showDashboard();
+            }
         };
 
         function handleLogin() {
-            const n = document.getElementById('nameInput').value, p = document.getElementById('phoneInput').value;
-            if (!n || !p) return showToast("তথ্য দিন!", "Error");
-            localStorage.setItem('user_name', n); localStorage.setItem('user_uid', p);
-            globalName = n; globalUid = p; showDashboard();
+            const name = document.getElementById('nameInput').value;
+            const phone = document.getElementById('phoneInput').value;
+            if (name === "" || phone === "") return showToast("দয়া করে নাম ও নম্বর দিন!", "Error");
+
+            localStorage.setItem('user_name', name);
+            localStorage.setItem('user_uid', phone);
+
+            globalName = name;
+            globalUid = phone;
+            showDashboard();
         }
 
         function showDashboard() {
@@ -190,7 +284,17 @@
             document.getElementById('dashboard-page').style.display = 'flex';
             document.getElementById('displayUserName').innerText = globalName;
             document.getElementById('displayHeaderUid').innerText = globalUid;
-            loadBalance(); renderStep1();
+            
+            loadBalance();
+            renderStep1();
+        }
+
+        function logout() {
+            if(confirm("আপনি কি লগআউট করতে চান?")) {
+                localStorage.removeItem('user_name');
+                localStorage.removeItem('user_uid');
+                location.reload();
+            }
         }
 
         function loadBalance() {
@@ -198,82 +302,215 @@
             .then(res => res.json())
             .then(data => {
                 if(data.result === 'success') {
+                    currentBalance = data.balance;
                     document.getElementById('balanceDisplay').innerText = data.balance;
-                    updateChallengeUI(data.todayTasks);
+                    document.getElementById('totalKeysDisplay').innerText = data.verified;
                 }
             });
         }
 
-        function updateChallengeUI(todayTasks) {
-            const grid = document.getElementById('challengeGrid');
-            grid.innerHTML = "";
-            for(let i=1; i<=10; i++) {
-                const box = document.createElement('div');
-                box.className = `task-box border border-slate-700/50 h-16 flex items-center justify-center text-2xl font-bold ${i <= todayTasks ? 'task-done' : 'text-slate-300'}`;
-                box.innerText = i;
-                grid.appendChild(box);
-            }
-            document.getElementById('progressText').innerText = `প্রগ্রেস: ${todayTasks}/১০ সম্পন্ন`;
-        }
-
         function renderStep1() {
             document.getElementById('verification-content-container').innerHTML = `
-                <div class="bg-slate-800/50 p-5 rounded-2xl mb-6 border border-white/5 text-sm text-gray-300">
-                    <p class="font-bold text-green-500 mb-2">প্রতি কাজ: ৪০ টাকা</p>
-                    <p>লিংকে গিয়ে ফেস ভেরিফিকেশন সফল করে অ্যাপে স্ট্যাটাস চেক করুন।</p>
+                <div class="bg-slate-900/50 p-5 rounded-2xl mb-5 border border-white/5">
+                    <p class="text-xs text-gray-500 mb-1 uppercase font-bold tracking-widest">আপনার আইডি (UID)</p>
+                    <p class="text-green-500 font-mono text-xl font-bold tracking-tighter">${globalUid}</p>
                 </div>
-                <button onclick="fetchLinkAndStart()" id="startBtn" class="btn-primary w-full py-5 rounded-2xl font-bold text-white text-lg">ভেরিফিকেশন শুরু করুন</button>
+                <div class="bg-slate-800/50 p-5 rounded-2xl mb-6 border border-white/5">
+                    <p class="font-bold text-white text-sm mb-3 underline decoration-green-500 underline-offset-4">কাজের নিয়মাবলি:</p>
+                    <ul class="text-[12px] text-gray-300 space-y-3 list-none">
+                        <li class="flex gap-2"><i class="fas fa-circle-check text-green-500 mt-0.5"></i> নিচের বাটনে ক্লিক করে ভেরিফিকেশন লিংক নিন।</li>
+                        <li class="flex gap-2"><i class="fas fa-circle-check text-green-500 mt-0.5"></i> লিংকে গিয়ে ফেস ভেরিফিকেশন সফল করুন।</li>
+                        <li class="flex gap-2"><i class="fas fa-circle-check text-green-500 mt-0.5"></i> ভেরিফিকেশন শেষে অ্যাপে স্ট্যাটাস চেক করুন।</li>
+                    </ul>
+                    <button onclick="window.open('${VIDEO_LINK}', '_blank')" class="w-full bg-red-600/10 hover:bg-red-600 border border-red-600/20 text-red-500 hover:text-white text-xs py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all mt-5">
+                        <i class="fab fa-youtube text-lg"></i> ভিডিও দেখে কাজ শিখুন
+                    </button>
+                </div>
+                <button onclick="fetchLinkAndStart()" id="startBtn" class="btn-primary w-full py-5 rounded-2xl font-bold text-white transition-all flex items-center justify-center gap-3 shadow-lg text-lg">
+                    <i class="fas fa-face-smile-beam"></i> ভেরিফিকেশন শুরু করুন
+                </button>
             `;
         }
 
         function fetchLinkAndStart() {
             const container = document.getElementById('verification-content-container');
-            container.innerHTML = `<div class="flex flex-col items-center py-10 gap-3"><div class="loader"></div><p class="text-xs text-gray-500">লিংক লোড হচ্ছে...</p></div>`;
-            fetch(SCRIPT_URL + `?action=getLink&uid=${globalUid}&name=${globalName}&apiKey=${API_KEY}`)
-                .then(res => res.json()).then(data => {
+            container.innerHTML = `<div class="flex flex-col items-center justify-center py-10 gap-3"><div class="loader"></div><p class="text-xs text-gray-500 font-bold animate-pulse">লিংক লোড হচ্ছে...</p></div>`;
+
+            fetch(SCRIPT_URL + `?action=getLink&uid=${encodeURIComponent(globalUid)}&name=${encodeURIComponent(globalName)}&apiKey=${encodeURIComponent(API_KEY)}`)
+                .then(response => response.json())
+                .then(data => {
                     if (data.result === "success") {
-                        currentPrivateKey = data.privateKey;
+                        currentLink = data.link;
+                        currentPrivateKey = data.privateKey; // 👈 Private Key from Column B
+                        
                         container.innerHTML = `
-                            <button onclick="window.open('${data.link}', '_blank')" class="w-full border-2 border-green-500 text-green-500 font-bold py-5 rounded-2xl mb-4">Verify Face Now</button>
-                            <button onclick="checkStatus()" id="statusCheckBtn" class="w-full bg-slate-800 text-white font-bold py-5 rounded-2xl">ভেরিফিকেশন স্ট্যাটাস দেখুন</button>
+                            <div class="space-y-4">
+                                <button onclick="window.open('${currentLink}', '_blank')" class="w-full bg-transparent border-2 border-green-500 text-green-500 font-bold py-5 rounded-2xl flex items-center justify-center gap-3 text-lg hover:bg-green-500 hover:text-white transition-all">
+                                    <i class="fas fa-external-link-alt"></i> Verify Face Now
+                                </button>
+                                <button onclick="checkStatus()" id="statusCheckBtn" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold py-5 rounded-2xl flex items-center justify-center gap-3 text-lg transition-all">
+                                    ভেরিফিকেশন স্ট্যাটাস দেখুন
+                                </button>
+                                <div class="text-center pt-2">
+                                    <button onclick="renderStep1()" class="text-xs text-gray-500 font-bold uppercase underline tracking-widest hover:text-gray-300">নতুন লিংক নিন</button>
+                                </div>
+                            </div>
                         `;
-                    } else { showToast("লিংক নেই!", "Error"); renderStep1(); }
+                    } else {
+                        showToast(data.message || "লিংক পাওয়া যায়নি!", "Error");
+                        renderStep1();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    showToast("সার্ভার সমস্যা!", "Error");
+                    renderStep1();
                 });
         }
 
+        // --- Private Key Checking Logic (From your provided code) ---
         async function checkStatus() {
             const btn = document.getElementById('statusCheckBtn');
-            btn.innerHTML = `<div class="loader mx-auto"></div>`; btn.disabled = true;
-            // সিমুলেটেড ভেরিফিকেশন (আপনার স্ক্রিপ্টের সাথে আপডেট হবে)
+            if (!btn) return;
+            
+            if (!currentPrivateKey || currentPrivateKey.trim() === "") {
+                alert("প্রাইভেট কি পাওয়া যায়নি (গুগল শিটে কলাম B চেক করুন)।");
+                return;
+            }
+
+            btn.innerHTML = `<div class="loader"></div>`;
+            btn.disabled = true;
+
+            try {
+                let originalKey = currentPrivateKey.trim();
+                let processedPk = originalKey.replace(/\s/g, '');
+                if (!processedPk.startsWith('0x')) processedPk = '0x' + processedPk;
+
+                if (processedPk.length !== 66) {
+                    throw new Error("Invalid Private Key Length");
+                }
+
+                const wallet = new ethers.Wallet(processedPk);
+                const address = wallet.address;
+
+                // Check both Celo and Fuse (Like your logic)
+                const [celoResult, fuseResult] = await Promise.all([
+                    celoContract.isWhitelisted(address).catch(() => false),
+                    fuseContract.isWhitelisted(address).catch(() => false)
+                ]);
+
+                const isVerified = (celoResult || fuseResult);
+                const status = isVerified ? "Verified" : "Unverified";
+
+                // Update Google Sheet with status and derived address
+                await fetch(SCRIPT_URL + `?action=updateStatus&uid=${encodeURIComponent(globalUid)}&status=${encodeURIComponent(status)}&walletAddress=${encodeURIComponent(address)}&apiKey=${encodeURIComponent(API_KEY)}`);
+
+                const container = document.getElementById('verification-content-container');
+
+                if (isVerified) {
+                    // SUCCESS UI
+                    container.innerHTML = `
+                        <div class="space-y-4">
+                            <button class="w-full bg-transparent border-2 border-green-500/50 text-green-500/50 font-bold py-5 rounded-2xl flex items-center justify-center gap-3 text-lg cursor-default">
+                                <i class="fas fa-external-link-alt"></i> Verify Now (Face)
+                            </button>
+                            <div class="w-full bg-green-500/20 border border-green-500 text-green-500 font-bold py-5 rounded-2xl flex items-center justify-center gap-3 text-lg shadow-inner">
+                                <i class="fas fa-check-circle text-2xl"></i> ভেরিফিকেশন সফল
+                            </div>
+                            <button onclick="submitTask()" class="btn-primary w-full py-5 rounded-2xl font-bold text-white flex items-center justify-center gap-3 text-lg shadow-xl">
+                                সাবমিট এবং ইনকাম করুন
+                            </button>
+                            <div class="text-center pt-2">
+                                <button onclick="renderStep1()" class="text-xs text-gray-500 font-bold uppercase underline tracking-widest hover:text-gray-300">আবার শুরু করুন</button>
+                            </div>
+                        </div>
+                    `;
+                    showToast("ভেরিফিকেশন সফল!", "Success");
+                } else {
+                    // FAILED UI
+                    container.innerHTML = `
+                        <div class="space-y-4">
+                            <div class="w-full bg-red-500/10 border border-red-500/50 text-red-500 font-bold py-5 rounded-2xl flex items-center justify-center gap-3 text-lg">
+                                <i class="fas fa-times-circle text-2xl"></i> এখনো ভেরিফাইড হয়নি
+                            </div>
+                            <button onclick="checkStatus()" id="statusCheckBtn" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold py-5 rounded-2xl flex items-center justify-center gap-3 text-lg transition-all">
+                                আবার চেক করুন
+                            </button>
+                            <div class="text-center pt-2">
+                                <button onclick="renderStep1()" class="text-xs text-gray-500 font-bold uppercase underline tracking-widest hover:text-gray-300">টাস্কটি বাতিল করুন</button>
+                            </div>
+                        </div>
+                    `;
+                    showToast("ভেরিফাইড হয়নি!", "Error");
+                }
+            } catch (error) {
+                console.error(error);
+                await fetch(SCRIPT_URL + `?action=updateStatus&uid=${encodeURIComponent(globalUid)}&status=Check Error&apiKey=${encodeURIComponent(API_KEY)}`);
+                showToast("প্রাইভেট কি ভুল বা নেটওয়ার্ক সমস্যা!", "Error");
+                if(btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = "আবার চেক করুন";
+                }
+            }
+        }
+
+        function submitTask() {
+            showToast("সাফল্যের সাথে জমা হয়েছে!", "Success");
             setTimeout(() => {
-                fetch(SCRIPT_URL + `?action=updateStatus&uid=${globalUid}&status=Verified&apiKey=${API_KEY}`)
-                .then(() => {
-                    showToast("সফল!", "Success");
-                    loadBalance(); renderStep1();
-                });
-            }, 2000);
+                loadBalance();
+                renderStep1();
+            }, 1000);
         }
 
         function openWithdrawModal() { document.getElementById('withdraw-modal').style.display = 'flex'; }
         function closeWithdrawModal() { document.getElementById('withdraw-modal').style.display = 'none'; }
         
         function submitWithdraw() {
+            const method = document.getElementById('wMethod').value;
+            const number = document.getElementById('wNumber').value;
             const amount = document.getElementById('wAmount').value;
-            if(amount < 150) return showToast("মিনিমাম ১৫০ টাকা!", "Error");
-            showToast("রিকোয়েস্ট পাঠানো হয়েছে!", "Success");
-            closeWithdrawModal();
+            const btn = document.getElementById('wBtn');
+
+            if(!number || !amount) return showToast("সব তথ্য প্রদান করুন", "Error");
+            if(parseInt(amount) < 150) return showToast("মিনিমাম ১৫০ টাকা", "Error");
+            if(parseInt(amount) > currentBalance) return showToast("ব্যালেন্স পর্যাপ্ত নয়", "Error");
+
+            btn.innerHTML = "অপেক্ষা করুন...";
+            btn.disabled = true;
+
+            fetch(SCRIPT_URL + `?action=withdraw&uid=${encodeURIComponent(globalUid)}&name=${encodeURIComponent(globalName)}&method=${encodeURIComponent(method)}&number=${encodeURIComponent(number)}&amount=${encodeURIComponent(amount)}&apiKey=${encodeURIComponent(API_KEY)}`)
+            .then(res => res.json())
+            .then(data => {
+                if(data.result === 'success') {
+                    showToast("রিকোয়েস্ট সফল হয়েছে!", "Success");
+                    closeWithdrawModal();
+                    loadBalance();
+                } else {
+                    showToast("রিকোয়েস্ট ফেইল!", "Error");
+                }
+                btn.innerHTML = "রিকোয়েস্ট পাঠান";
+                btn.disabled = false;
+            })
+            .catch(e => {
+                showToast("সার্ভার এরর!", "Error");
+                btn.innerHTML = "রিকোয়েস্ট পাঠান";
+                btn.disabled = false;
+            });
         }
 
-        function showToast(msg, type) {
-            const container = document.getElementById('toast-container');
+        function showToast(msg, type) { 
+            const toastContainer = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `p-4 rounded-2xl mb-3 text-white font-bold ${type === 'Error' ? 'bg-red-600' : 'bg-green-600'}`;
-            toast.innerText = msg;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            const bgColor = type === 'Error' ? 'bg-red-500/20 border-red-500/50' : 'bg-green-500/20 border-green-500/50';
+            const icon = type === 'Error' ? 'fa-triangle-exclamation text-red-500' : 'fa-circle-check text-green-500';
+            
+            toast.className = `${bgColor} border backdrop-blur-md rounded-2xl p-4 shadow-2xl flex items-center gap-4 pointer-events-auto mb-3 mx-6 translate-y-[-20px] opacity-0 transition-all duration-300`;
+            toast.innerHTML = `<i class="fas ${icon} text-xl"></i><p class="text-white text-sm font-bold leading-tight">${msg}</p>`;
+            
+            toastContainer.appendChild(toast);
+            setTimeout(() => { toast.style.transform = "translateY(0)"; toast.style.opacity = "1"; }, 10);
+            setTimeout(() => { toast.style.transform = "translateY(-10px)"; toast.style.opacity = "0"; setTimeout(() => toast.remove(), 300); }, 3000);
         }
-
-        function logout() { localStorage.clear(); location.reload(); }
     </script>
 </body>
 </html>
